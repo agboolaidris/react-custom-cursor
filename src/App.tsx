@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useEffect, useState } from "react";
+import { motion, Variants } from "framer-motion";
 function App() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (ev: MouseEvent) => {
+    setMousePosition({
+      x: ev.clientX,
+      y: ev.clientY,
+    });
+  };
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  const variants: Variants = {
+    default: {
+      x: mousePosition.x,
+      y: mousePosition.y,
+    },
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <motion.div className="cursor" variants={variants} animate="default" />
     </div>
   );
 }
